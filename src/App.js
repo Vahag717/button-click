@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+    const [lists,setLists] = useState ([
+      {text:'HTML'},
+      {text:'CSS'},
+      {text:'JS'},
+    ])
+
+const [value,setValue] = useState('')  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type='text' value={value} onChange={(e)=>setValue(e.target.value)}/>
+      <button onClick={()=>{
+        if (value.trim()!== "") {
+            setLists([...lists,{text:value}])
+        }
+        setValue('')
+      }}>Add list</button>
+      <ul >
+        {lists.map((e,i)=><li>{e.text} <button onClick={()=>{
+          setLists([...lists].filter((e,ind)=>ind!==i))
+        }}>X</button></li>)}
+      </ul>
     </div>
   );
 }
